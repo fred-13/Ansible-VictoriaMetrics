@@ -1,0 +1,12 @@
+---
+# defaults file for VictoriaMetrics
+victoriametrics_version: "v1.44.0"
+victoriametrics_system_user: "victoriametrics"
+victoriametrics_system_group: "{{ victoriametrics_system_user }}"
+victoriametrics_data_dir: "/opt/victoriametrics/data/"
+victoriametrics_service_args:
+  storageDataPath: "{{ victoriametrics_data_dir }}"
+  retentionPeriod: "3"
+  httpListenAddr: ":8428"
+LimitNOFILE: "32000"
+LimitNPROC:  "32000"

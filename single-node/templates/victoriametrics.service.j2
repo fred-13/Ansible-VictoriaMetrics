@@ -1,0 +1,20 @@
+[Unit]
+Description=VictoriaMetrics
+After=network.target
+
+[Service]
+Type=simple
+StartLimitBurst=5
+StartLimitInterval=0
+Restart=on-failure
+RestartSec=1
+PIDFile=/run/victoriametrics/victoriametrics.pid
+User={{ victoriametrics_system_user }}
+Group={{ victoriametrics_system_group }}
+ExecStart=/usr/local/bin/victoria-metrics-prod \
+    {% for flag, flag_value in victoriametrics_service_args.items() %}--{{ flag }}={{ flag_value }} {% endfor %}
+
+ExecStop=/bin/kill -s SIGTERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target

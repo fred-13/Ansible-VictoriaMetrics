@@ -1,0 +1,27 @@
+---
+- name: Ensure existense of /etc/systemd/system/victoriametrics.service.d
+  file:
+    path: /etc/systemd/system/victoriametrics.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy ulimit.conf under /etc/systemd/system/victoriametrics.service.d/ulimit.conf
+  template:
+    src: ulimit.conf.j2
+    dest: /etc/systemd/system/victoriametrics.service.d/ulimit.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart VictoriaMetrics service
+
+- name: Copy VictoriaMetrics systemd unit file
+  template:
+    src: victoriametrics.service.j2
+    dest: /etc/systemd/system/victoriametrics.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart VictoriaMetrics service
+  no_log: True
