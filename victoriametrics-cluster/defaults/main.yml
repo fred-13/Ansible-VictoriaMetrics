@@ -1,0 +1,21 @@
+---
+# defaults settings for all VictoriaMetrics nodes
+victoriametrics_version: "v1.44.0"
+victoriametrics_system_user: "victoriametrics"
+victoriametrics_system_group: "victoriametrics"
+work_dir: "/opt/victoriametrics"
+
+# variables for vmstorage nodes
+victoriametrics_vmstorage_data_dir: "/opt/victoriametrics/victoria-storage"
+victoriametrics_vmstorage_retention_period: "24"
+victoriametrics_vmstorage_memory_allowed_percent: "60"
+victoriametrics_vmstorage_service_args: "-search.maxUniqueTimeseries=3000000"
+
+# variables for vmselect nodes
+victoriametrics_vmselect_cache_dir: "/opt/victoriametrics/victoria-cache"
+victoriametrics_vmselect_service_args: "-search.maxPointsPerTimeseries=1000000000 -search.maxQueryDuration=120s"
+victoriametrics_vmselect_memory_allowed_percent: "60"
+
+# variables for vminsert nodes
+victoriametrics_vminsert_service_args: ""
+victoriametrics_vminsert_memory_allowed_percent: "60"

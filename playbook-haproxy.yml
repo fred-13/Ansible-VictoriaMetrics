@@ -1,0 +1,28 @@
+---
+- hosts: haproxy
+  remote_user: vagrant
+  become: true
+  become_method: sudo
+  become_user: root
+  roles:
+    - haproxy
+
+- hosts: keepalived_master
+  remote_user: vagrant
+  become: true
+  become_method: sudo
+  become_user: root
+  roles:
+    - keepalived
+  vars:
+    priority: 101
+
+- hosts: keepalived_backup
+  remote_user: vagrant
+  become: true
+  become_method: sudo
+  become_user: root
+  roles:
+    - keepalived
+  vars:
+    priority: 100

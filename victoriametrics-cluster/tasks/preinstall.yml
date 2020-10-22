@@ -1,0 +1,35 @@
+---
+- name: Get systemd version
+  command: systemctl --version
+  changed_when: false
+  check_mode: false
+  register: __systemd_version
+
+- name: Set systemd version fact
+  set_fact:
+    victoriametrics_systemd_version: "{{ __systemd_version.stdout_lines[0].split(' ')[-1] }}"
+
+- name: Create VictoriaMetrics system group
+  group:
+    name: "{{ victoriametrics_system_group }}"
+    state: present
+    system: true
+  when: victoriametrics_system_group != "root"
+
+- name: Create VictoriaMetrics system user
+  user:
+    name: "{{ victoriametrics_system_user }}"
+    groups: "{{ victoriametrics_system_group }}"
+    append: true
+    shell: /sbin/nologin
+    system: true
+    createhome: false
+  when: victoriametrics_system_user != "root"
+
+- name: Ensure existense of {{ work_dir }}
+  file:
+    path: "{{ work_dir }}"
+    state: directory
+    owner: "{{ victoriametrics_system_user }}"
+    group: "{{ victoriametrics_system_group }}"
+    mode: 0755

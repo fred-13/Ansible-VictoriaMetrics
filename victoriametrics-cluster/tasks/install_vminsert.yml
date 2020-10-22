@@ -1,0 +1,24 @@
+---
+- name: Ensure existense of /etc/systemd/system/victoriametrics-vminsert.service.d
+  file:
+    path: /etc/systemd/system/victoriametrics-vminsert.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy overwrite.conf under /etc/systemd/system/victoriametrics-vminsert.service.d/overwrite.conf
+  copy:
+    src: overwrite.conf
+    dest: /etc/systemd/system/victoriametrics-vminsert.service.d/overwrite.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Unarchive victoriametrics cluster version from victoria-metrics-{{ victoriametrics_version }}-cluster.tar.gz
+  unarchive:
+    src: "victoria-metrics-{{ victoriametrics_version }}-cluster.tar.gz"
+    dest: "{{ work_dir }}"
+    owner: "{{ victoriametrics_system_user }}"
+    group: "{{ victoriametrics_system_group }}"
+    remote_src: False

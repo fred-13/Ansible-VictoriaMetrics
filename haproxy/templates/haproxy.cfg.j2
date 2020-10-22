@@ -1,0 +1,89 @@
+#---------------------------------------------------------------------
+# Global settings
+#---------------------------------------------------------------------
+
+global
+    log          127.0.0.1 local2
+    log-send-hostname
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     40000
+    user        haproxy
+    group       haproxy
+    daemon
+    stats socket /run/haproxy.sock mode 666 level admin
+    ssl-default-bind-ciphers PROFILE=SYSTEM
+    ssl-default-server-ciphers PROFILE=SYSTEM
+
+#---------------------------------------------------------------------
+# common defaults that all the 'listen' and 'backend' sections will
+# use if not designated in their block
+#---------------------------------------------------------------------
+
+defaults
+    mode                    http
+    log                     global
+    option                  httplog
+    option                  dontlognull
+    option http-server-close
+    option forwardfor       except 127.0.0.0/8
+    option                  redispatch
+    retries                 3
+    timeout http-request    10s
+    timeout queue           1m
+    timeout connect         10s
+    timeout client          1m
+    timeout server          1m
+    timeout http-keep-alive 10s
+    timeout check           10s
+    maxconn                 30000
+    balance
+
+#---------------------------------------------------------------------
+# main frontend vminsert and vmselect
+#---------------------------------------------------------------------
+
+frontend vminsert
+bind 0.0.0.0:{{ listen_ports[1] }}
+  mode http
+  log global
+  default_backend vminsert_nodes
+
+frontend vmselect
+bind 0.0.0.0:{{ listen_ports[2] }}
+  mode http
+  log global
+  default_backend vmselect_nodes
+
+frontend stats
+bind 0.0.0.0:{{ listen_ports[0] }}
+    mode http
+    stats enable
+    stats uri /stats
+    stats realm HAProxy\ Statistics
+    stats auth {{ username }}:{{ password }}
+    stats admin if TRUE
+
+#---------------------------------------------------------------------
+# round robin balancing between vminsert and vmselect
+#---------------------------------------------------------------------
+
+backend vminsert_nodes
+    mode http
+    balance roundrobin
+    option httpchk GET /health
+    http-check expect string OK
+    default-server inter 5s fall 3 rise 2
+{% for host in groups['vminsert'] %}
+    server {{ host }} {{ hostvars[host]['ansible_host'] }}:{{ listen_ports[1] }} check
+{% endfor %}
+
+backend vmselect_nodes
+    mode http
+    balance roundrobin
+    option httpchk GET /health
+    http-check expect string OK
+    default-server inter 5s fall 3 rise 2
+{% for host in groups['vmselect'] %}
+    server {{ host }} {{ hostvars[host]['ansible_host'] }}:{{ listen_ports[2] }} check
+{% endfor %}

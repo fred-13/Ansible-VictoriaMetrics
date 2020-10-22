@@ -1,0 +1,7 @@
+---
+username: 'stat'
+password: 'statpass'
+listen_ports:
+  - 8888
+  - 8480
+  - 8481
