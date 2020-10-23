@@ -7,22 +7,10 @@
   roles:
     - haproxy
 
-- hosts: keepalived_master
+- hosts: keepalived
   remote_user: vagrant
   become: true
   become_method: sudo
   become_user: root
   roles:
     - keepalived
-  vars:
-    priority: 101
-
-- hosts: keepalived_backup
-  remote_user: vagrant
-  become: true
-  become_method: sudo
-  become_user: root
-  roles:
-    - keepalived
-  vars:
-    priority: 100

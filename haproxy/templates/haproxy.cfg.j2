@@ -55,6 +55,7 @@ bind 0.0.0.0:{{ listen_ports[2] }}
   log global
   default_backend vmselect_nodes
 
+{% if frontend_stats_enabled %}
 frontend stats
 bind 0.0.0.0:{{ listen_ports[0] }}
     mode http
@@ -63,6 +64,7 @@ bind 0.0.0.0:{{ listen_ports[0] }}
     stats realm HAProxy\ Statistics
     stats auth {{ username }}:{{ password }}
     stats admin if TRUE
+{% endif %}
 
 #---------------------------------------------------------------------
 # round robin balancing between vminsert and vmselect

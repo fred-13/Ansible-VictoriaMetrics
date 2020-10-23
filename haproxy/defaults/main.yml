@@ -1,6 +1,7 @@
 ---
-username: 'stat'
-password: 'statpass'
+username: "stat"
+password: "VeryHardPass"
+frontend_stats_enabled: False
 listen_ports:
   - 8888
   - 8480
