@@ -1,4 +1,13 @@
 ---
+
+- name: Copying the script for automatic configuration of the vIP interface
+  copy:
+    src: vmac_tweak.sh
+    dest: /etc/keepalived/vmac_tweak.sh
+    owner: root
+    group: root
+    mode: 0755
+
 - name: Copying keepalived.conf
   template: src=keepalived.conf.j2 dest=/etc/keepalived/keepalived.conf
   notify: restart keepalived

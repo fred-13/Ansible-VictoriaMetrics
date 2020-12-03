@@ -13,6 +13,10 @@ vrrp_instance VI_1 {
 {% elif inventory_hostname == "ha-2" %}
   priority {{ keepalived_backup_priority }}
 {% endif %}
+  use_vmac
+  vmac_xmit_base
+  advert_int 1
+  preempt
   virtual_ipaddress {
     {{virtual_ipaddress}}
   }
@@ -23,4 +27,5 @@ vrrp_instance VI_1 {
     auth_type PASS
     auth_pass {{secret_passwd}}
         }
+  notify_master "/etc/keepalived/vmac_tweak.sh vrrp.{{ virtual_router_id }}"
 }
