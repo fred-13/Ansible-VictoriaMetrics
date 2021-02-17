@@ -6,3 +6,19 @@
   become_user: root
   roles:
    - victoriametrics-cluster
+
+- hosts: haproxy
+  remote_user: vagrant
+  become: true
+  become_method: sudo
+  become_user: root
+  roles:
+    - haproxy
+
+- hosts: keepalived
+  remote_user: vagrant
+  become: true
+  become_method: sudo
+  become_user: root
+  roles:
+    - keepalived

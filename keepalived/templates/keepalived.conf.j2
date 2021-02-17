@@ -1,22 +1,28 @@
 vrrp_script chk_haproxy {
-  script "killall -0 haproxy"
+  script "/usr/bin/killall -0 haproxy"
   interval 2
+  fall 2
   weight 2
 }
 
 vrrp_instance VI_1 {
   interface {{interface}}
+{% if inventory_hostname == "ha-1" %}
   state MASTER
+{% elif inventory_hostname == "ha-2" %}
+  state BACKUP
+{% endif %}
   virtual_router_id {{virtual_router_id}}
 {% if inventory_hostname == "ha-1" %}
   priority {{ keepalived_master_priority }}
 {% elif inventory_hostname == "ha-2" %}
   priority {{ keepalived_backup_priority }}
 {% endif %}
+{% if use_vmac_enable %}
   use_vmac
   vmac_xmit_base
+{% endif %}
   advert_int 1
-  preempt
   virtual_ipaddress {
     {{virtual_ipaddress}}
   }
@@ -27,5 +33,7 @@ vrrp_instance VI_1 {
     auth_type PASS
     auth_pass {{secret_passwd}}
         }
+{% if use_vmac_enable %}
   notify_master "/etc/keepalived/vmac_tweak.sh vrrp.{{ virtual_router_id }}"
+{% endif %}
 }

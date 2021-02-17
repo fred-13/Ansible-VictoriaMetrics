@@ -3,3 +3,4 @@
   with_items:
     - epel-release
     - keepalived
+    - psmisc

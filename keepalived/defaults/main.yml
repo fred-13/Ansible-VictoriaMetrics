@@ -5,3 +5,4 @@ virtual_ipaddress: 192.168.10.16
 secret_passwd: VeryHardPassword
 keepalived_master_priority: 101
 keepalived_backup_priority: 100
+use_vmac_enable: True

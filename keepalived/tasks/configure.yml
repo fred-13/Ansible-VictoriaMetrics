@@ -7,6 +7,7 @@
     owner: root
     group: root
     mode: 0755
+  when: use_vmac_enable
 
 - name: Copying keepalived.conf
   template: src=keepalived.conf.j2 dest=/etc/keepalived/keepalived.conf

@@ -8,7 +8,3 @@ ansible-playbook playbook-single-node.yml
 ```
 ansible-playbook -i hosts playbook-cluster.yml
 ```
-### Deploy HAProxy with Keepalived:
-```
-ansible-playbook -i hosts playbook-haproxy.yml
-```
