@@ -1,7 +1,7 @@
 ---
 interface: eth1
 virtual_router_id: 1
-virtual_ipaddress: 192.168.10.16
+virtual_ipaddress: 192.168.56.16
 secret_passwd: VeryHardPassword
 keepalived_master_priority: 101
 keepalived_backup_priority: 100

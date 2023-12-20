@@ -1,6 +1,6 @@
 ---
 # defaults settings for all VictoriaMetrics nodes
-victoriametrics_version: "v1.44.0"
+victoriametrics_version: "v1.96.0"
 victoriametrics_system_user: "victoriametrics"
 victoriametrics_system_group: "victoriametrics"
 work_dir: "/opt/victoriametrics"

@@ -1,8 +1,8 @@
 [vmstorage]
-vm-1 ansible_host=192.168.10.10
-vm-2 ansible_host=192.168.10.11
-vm-3 ansible_host=192.168.10.12
-vm-4 ansible_host=192.168.10.13
+vm-1 ansible_host=192.168.56.10
+vm-2 ansible_host=192.168.56.11
+vm-3 ansible_host=192.168.56.12
+vm-4 ansible_host=192.168.56.13
 
 [vminsert]
 vm-1
@@ -13,8 +13,8 @@ vm-3
 vm-4
 
 [haproxy]
-ha-1 ansible_host=192.168.10.14
-ha-2 ansible_host=192.168.10.15
+ha-1 ansible_host=192.168.56.14
+ha-2 ansible_host=192.168.56.15
 
 [keepalived]
 ha-1

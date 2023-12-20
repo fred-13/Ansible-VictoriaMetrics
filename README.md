@@ -6,5 +6,5 @@
 ```
 #### Deploy VictoriaMetrics in cluster mode:
 ```bash
-    ansible-playbook -i hosts playbook-cluster.yml
+    ansible-playbook -i hosts playbook-cluster.yml --ask-pass
 ```
