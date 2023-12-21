@@ -8,3 +8,7 @@
 ```bash
     ansible-playbook -i hosts playbook-cluster.yml --ask-pass
 ```
+#### Deploy Loki Stack
+```bash
+    docker compose up -d
+```
