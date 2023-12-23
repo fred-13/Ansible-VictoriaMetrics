@@ -6,9 +6,11 @@
 ```
 #### Deploy VictoriaMetrics in cluster mode:
 ```bash
+    vagrant up
     ansible-playbook -i hosts playbook-cluster.yml --ask-pass
 ```
 #### Deploy Loki Stack
 ```bash
     docker compose up -d
 ```
+
